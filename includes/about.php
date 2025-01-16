@@ -92,7 +92,7 @@ $username = substr($_SESSION['user_email'], 0, $getPosistion);?>
     <div class="dropdown button item">
         <a href="#" id="dropdown-link" class="dropdown-toggle" data-bs-toggle="dropdown"><?php echo $username;?></a>
         <div class="dropdown-menu">
-            <a href="includes/logout.php" class="dropdown-item">Log Out</a>
+            <a href="logout.php" class="dropdown-item">Log Out</a>
         </div>
     </div>
     <!-- <li class="item button secondary"><a href="#" class="fab fa-add" style="font-size:20px"></a></li> -->
