@@ -35,7 +35,7 @@ function validateName($Name) {
 }
 
 
-
+// To check if the password match
 function checkPasswordMatch($pass1, $pass2){
   if ($pass1 == $pass2){
     return true;
@@ -44,6 +44,7 @@ function checkPasswordMatch($pass1, $pass2){
   }
 }
 
+// To check if the password is in a correct format
 function isValidPassword($pass){
   if (preg_match('/^(?=.*[a-z])(?=.*[A-Z]).{8,}$/', $pass)) {
     return true;
@@ -52,6 +53,8 @@ function isValidPassword($pass){
   }
 }
 
+
+// To check if the email already exists in the database
 function checkExistingUser($conn, $email){
   $query = "SELECT * FROM `users` WHERE `user_email`='".$email."' ";
   $result = mysqli_query($conn, $query);
@@ -62,8 +65,10 @@ function checkExistingUser($conn, $email){
   }
 }
 
+
+// Function to validate email address
 function validate_email($email) {
-  // Check if email address is valid
+
   if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
     // Extract the domain from the email address
     $domain = substr(strrchr($email, "@"), 1);
@@ -78,22 +83,28 @@ function validate_email($email) {
 }
 
 
-
+// Handling Login
 if (isset($_POST['btn_login'])){
 
   echo "<style>#login_section{display:block}#register_section{display:none}</style>";
 
+  // getting user prompt from input
     $email = $_POST['email'];
     $password = $_POST['password'];
     
+    // Hashing the password
     $passwordHash = md5($password);
 
+    // Check if the email and password are not empty
     if (!empty($email) & !empty($password)){
+      // Perform the login
         $result = login($conn, $email, $passwordHash);
 
         if ($result == false){
             $msgLogin = "Invalid User Credentials";
         }else{
+
+          // Store the user information in a sesssion. for future reference
             $rows = mysqli_fetch_array($result);
             $_SESSION['user_id'] = $rows['user_id'];
             $_SESSION['user_firstname'] = $rows['user_firstname'];
@@ -103,7 +114,7 @@ if (isset($_POST['btn_login'])){
             $_SESSION['user_number'] = $rows['user_number'];
             $_SESSION['privilege'] = $rows['privilege'];
 
-            header("Location: ".$script_name);
+            header("Location: ".$script_name); // refresh the page.
 ;        }
     }else{
         $msgLogin = "All fields are required";
@@ -127,6 +138,8 @@ if (isset($_POST['btn_register'])){
 
     <?php
 
+
+    // getting user prompt from input
     $firstname = $_POST['firstname'];
     $lastname = $_POST['lastname'];
     $regemail = $_POST['regemail'];
@@ -138,7 +151,8 @@ if (isset($_POST['btn_register'])){
 
     
     $error = 0;
-
+    
+    // Handle registration errors and validation errors
     if (validateName($firstname)){
 
     }else{
@@ -195,12 +209,15 @@ if (isset($_POST['btn_register'])){
       $regpassError2 = "<br>Passwords do not match!";
       $error += 1;
     }
+
+    // Hash the password
     $hash  = md5($regpassword);
 
     if ($error == 0){
+      // Insert the user into the database
       $sql = "INSERT INTO `users` (`user_id`, `user_firstname`, `user_lastname`, `user_email`, `user_password`, `user_number`,`privilege`) VALUES (NULL, '".$firstname."', '".$lastname."', '".$regemail."', '".$hash."', '".$number."', 'user')";
 
-      
+
       
         if (mysqli_query($conn, $sql)) {
           $result = login($conn, $regemail, $hash);
@@ -208,6 +225,7 @@ if (isset($_POST['btn_register'])){
           if ($result == false){
               echo "Invalid User Credentials";
           }else{
+            // Store the user information in a sesssion. for future reference
               $rows = mysqli_fetch_array($result);
               $_SESSION['user_id'] = $rows['user_id'];
               $_SESSION['user_firstname'] = $rows['user_firstname'];
@@ -235,7 +253,7 @@ if (isset($_POST['btn_register'])){
 
 
 <br>
-           
+           <!-- User Interface -->
 <section class="vh-100" id="login_section">
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">

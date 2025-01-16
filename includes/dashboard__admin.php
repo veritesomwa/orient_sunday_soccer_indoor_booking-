@@ -8,6 +8,7 @@
 
 </style>
 <?php 
+
 $getPosistion = strpos($_SESSION['user_email'], "@");
 $username = substr($_SESSION['user_email'], 0, $getPosistion);
 
@@ -43,7 +44,7 @@ $username = substr($_SESSION['user_email'], 0, $getPosistion);
                 <h1>Bookings</h1>
 
                 <?php 
-
+                // Function to check existing bookings
                 function checkExistingBooking($conn, $id, $intime){
                     $query = "SELECT * FROM `bookings` WHERE `user_id`='".$id."' AND `in_time`='".$intime."'";
                     $result = mysqli_query($conn, $query);
@@ -54,23 +55,7 @@ $username = substr($_SESSION['user_email'], 0, $getPosistion);
                     }
                 }
 
-                    // if (isset($_POST['btnBook'])){
-                    //     if (checkExistingBooking($conn, $_SESSION['user_id'], '18')){
-                    //         
-                    //     }else{
-                    //         $sql_book = "INSERT INTO `bookings`(`bookings_id`, `user_id`, `booked`) VALUES (NULL ,'".$_SESSION['user_id']."','true')";
-                    //         $sql_book_run = mysqli_query($conn, $sql_book);
-                    //     }
-                    // }
-
-                    // if (isset($_POST['btnRemoveBook'])){
-                    //     if (checkExistingBooking($conn, $_SESSION['user_id'])){
-                    //         $sql_book = "DELETE FROM `bookings` WHERE user_id='".$_SESSION['user_id']."'";
-                    //         $sql_book_run = mysqli_query($conn, $sql_book);
-                    //     }else{
-                    //         
-                    //     }
-                    // }
+                    
 
                 ?>
 

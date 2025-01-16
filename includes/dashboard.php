@@ -26,6 +26,7 @@
 $getPosistion = strpos($_SESSION['user_email'], "@");
 $username = substr($_SESSION['user_email'], 0, $getPosistion);
 
+// to check if booking exists
 function checkExistingBooking($conn, $userid, $intime){
     $query = "SELECT * FROM `bookings` WHERE user_id='".$userid."' AND `booked`='true' AND `in_time`='".$intime."'";
     if ($query_run = mysqli_query($conn, $query)){
@@ -37,6 +38,8 @@ function checkExistingBooking($conn, $userid, $intime){
     }
 }
 
+
+// to revoke booking
 function revokeBooking($conn, $userid, $intime){
     $query = "DELETE from `bookings` WHERE booked='true' AND user_id='".$userid."' AND `in_time`='".$intime."'";
     if ($query_run = mysqli_query($conn, $query)){
@@ -46,6 +49,8 @@ function revokeBooking($conn, $userid, $intime){
     }
 }
 
+
+// to get number of booked users
 function getNumberOfBookedUsers($conn, $intime){
     $query = "SELECT COUNT(*) as count FROM `bookings` WHERE `in_time`='".$intime."' AND `booked`='true'";
     if ($query_run = mysqli_query($conn, $query)){
@@ -54,6 +59,8 @@ function getNumberOfBookedUsers($conn, $intime){
     }
 }
 
+
+// to get number of available users according to the time slots
 if(isset($_POST['revoke67'])){
     revokeBooking($conn, $_SESSION['user_id'], '18:00:00');
 }
@@ -64,6 +71,8 @@ if(isset($_POST['revoke89'])){
     revokeBooking($conn, $_SESSION['user_id'], '20:00:00');
 }
 
+
+// to book users
 if(isset($_POST['book67'])){
 
     if (checkExistingBooking($conn, $_SESSION['user_id'], "18:00:00")){
@@ -126,7 +135,7 @@ if(isset($_POST['book89'])){
   });
     </script>
 
-    
+    <!-- Creating the user interface and the time slot cards for booking -->
     <section id="container" class="vh-100">
         <div class="h-custom">
         <!-- <a href="includes/logout.php"><button class="btn btn-primary">Sign Out</button></a> -->
